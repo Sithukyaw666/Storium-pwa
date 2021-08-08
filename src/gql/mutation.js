@@ -34,7 +34,14 @@ export const LOGOUT = gql`
 export const CLAP = gql`
   mutation clap($id: ID!) {
     clap(id: $id) {
-      claps
+      id
+    }
+  }
+`;
+export const FOLLOW_USER = gql`
+  mutation followUser($id: ID!) {
+    followUser(id: $id) {
+      id
     }
   }
 `;

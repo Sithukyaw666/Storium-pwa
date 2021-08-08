@@ -39,6 +39,8 @@ export const GET_USER_BY_ID = gql`
     getUserById(id: $id) {
       username
       email
+      followers
+      followings
       stories {
         id
         title

@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { GET_USER_BY_ID } from "../gql/query";
 import { useAuth } from "../hooks/auth";
+import Follow from "./Follow";
 import Logout from "./Logout";
 
 const Profile = () => {
@@ -29,23 +30,24 @@ const Profile = () => {
                 Have a nice Editing
               </span>
               <div className="mt-4 mb-4">
-                <p className="text-md capitalize font-semibold text-gray-700">
-                  About
-                </p>
                 <p className="text-blue-500 font-bold">
                   <span className="text-gray-700">Email</span> :{" "}
                   {data.getUserById.email}
                 </p>
                 <p className="font-semibold text-base">
-                  <span className="text-blue-500 font-bold text-lg">{0}</span>{" "}
+                  <span className="text-blue-500 font-bold text-lg">
+                    {data.getUserById.followers.length}
+                  </span>{" "}
                   followers
                 </p>
                 <p className="font-semibold text-base">
-                  <span className="text-blue-500 font-bold text-lg">{0}</span>{" "}
+                  <span className="text-blue-500 font-bold text-lg">
+                    {data.getUserById.followings.length}
+                  </span>{" "}
                   followings
                 </p>
               </div>
-              {user === id && <Logout />}
+              {user === id ? <Logout /> : <Follow id={id} />}
             </div>
             <div className="w-1/2">
               <p className="text-gray-800 font-bold text-2xl  capitalize mb-8">
