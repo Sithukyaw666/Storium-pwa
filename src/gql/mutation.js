@@ -31,3 +31,10 @@ export const LOGOUT = gql`
     }
   }
 `;
+export const CLAP = gql`
+  mutation clap($id: ID!) {
+    clap(id: $id) {
+      claps
+    }
+  }
+`;

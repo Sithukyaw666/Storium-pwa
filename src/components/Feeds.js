@@ -10,14 +10,14 @@ const Feeds = () => {
   useEffect(() => {
     refetch();
   }, []);
-  console.log(data);
+
   return (
-    <div className="w-1/2 m-auto  px-8 py-4  ">
+    <div className="w-1/2 m-auto  px-8 py-4 md:w-full md:px-4 ">
       {data &&
         data.getAllStory.map((d) => (
           <Link key={d.id} to={`/story/${d.id}`}>
-            <div className="w-full h-40  mr-auto ml-auto mb-4 px-4 py-2 flex justify-between flex-col border-2 border-blue-400">
-              <p className="text-3xl font-extrabold font-sans text-gray-800 cursor-pointer capitalize">
+            <div className="w-full bg-blue-100  mr-auto ml-auto mb-4 px-4 py-2 flex justify-between flex-col border-2 rounded-md">
+              <p className="text-3xl font-extrabold font-sans mb-8 text-gray-800 cursor-pointer capitalize hover:text-blue-500">
                 {d.title}
               </p>
               <div>

@@ -30,6 +30,7 @@ const Register = () => {
           className="w-80 h-11 outline-none border-2 rounded-lg border-blue-400 p-4"
           type="text"
           placeholder="username"
+          required
           onChange={(e) => setUsername(e.target.value)}
         />
 
@@ -37,16 +38,17 @@ const Register = () => {
           className="w-80 h-11 outline-none border-2 rounded-lg border-blue-400 p-4"
           type="email"
           placeholder="email"
+          required
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           className="w-80 h-11 outline-none border-2 rounded-lg border-blue-400 p-4"
           type="password"
           placeholder="password"
+          required
           onChange={(e) => setPassword(e.target.value)}
         />
         <button
-          disabled={!email && !password}
           type="submit"
           className="w-40 h-9 bg-blue-500 rounded-lg text-white font-semibold uppercase hover:bg-blue-600"
         >

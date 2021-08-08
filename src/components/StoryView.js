@@ -12,7 +12,7 @@ const StoryView = () => {
   });
 
   return (
-    <div className="w-1/2 ml-auto mr-auto p-8 bg-white">
+    <div className="w-1/2 ml-auto mr-auto p-8 bg-white md:w-full md:p-4">
       {data && (
         <>
           <div className="mb-8">
@@ -23,7 +23,7 @@ const StoryView = () => {
               <p className=" font-bold text-base text-gray-600">
                 Author :{" "}
                 <Link to={`/profile/${data.getStoryById.authorID}`}>
-                  <span className="hover:text-blue-400 capitalize">
+                  <span className="hover:text-blue-500 capitalize">
                     {data.getStoryById.author.username}
                   </span>
                 </Link>
