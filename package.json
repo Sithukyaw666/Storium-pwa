@@ -61,5 +61,5 @@
     "postcss": "^7.0.36",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.4"
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "https://storium-api.herokuapp.com"
 }

@@ -8,19 +8,20 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [registerUser] = useMutation(REGISTER_USER);
+  const [registerUser, { data }] = useMutation(REGISTER_USER);
   const onSubmit = (e) => {
     e.preventDefault();
     registerUser({
       variables: { username: username, email: email, password: password },
     });
-    try {
-      history.push("/login");
-    } catch {}
   };
 
+  if (data?.createUser?.user) {
+    history.push("/login");
+  }
+
   return (
-    <div className="w-full h-4/5 flex flex-col justify-center items-center">
+    <div className="md:w-full p-8 w-4/12 shadow-lg rounded-lg h-96 ml-auto mr-auto mt-32 flex flex-col justify-center items-center bg-gray-100">
       <p className="text-blue-500 font-bold text-3xl mb-4">Register</p>
       <form
         className="container h-60 flex justify-around items-center flex-col "
@@ -48,6 +49,9 @@ const Register = () => {
           required
           onChange={(e) => setPassword(e.target.value)}
         />
+        {data?.createUser?.error && (
+          <p className="text-red-500 font-medium ">{data.createUser.error}</p>
+        )}
         <button
           type="submit"
           className="w-40 h-9 bg-blue-500 rounded-lg text-white font-semibold uppercase hover:bg-blue-600"
