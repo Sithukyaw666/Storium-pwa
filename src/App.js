@@ -12,8 +12,9 @@ import Profile from "./components/Profile";
 
 function App() {
   const client = new ApolloClient({
-    uri: "/graphql",
+    uri: "https://storium-api.herokuapp.com/graphql",
     cache: new InMemoryCache(),
+    credentials: "include",
   });
 
   return (
