@@ -1,21 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import { useAuth } from "../hooks/auth";
 import logo from "../assets/logo/logo.svg";
+import { createProfile } from "../utils/profile";
 
 const Header = () => {
   const user = useAuth();
+  const svg = createProfile(user);
 
   return (
     <nav
-      className={`sticky top-0 w-full h-16 bg-white flex justify-around items-center relative  px-4 z-10`}
+      className={`sticky top-0 w-full h-16 bg-white flex justify-around items-center   px-4 z-10`}
     >
       <img className="w-20 " src={logo} alt="Storium" />
       {user ? (
         <Link
           to={`/profile/${user}`}
-          className="hidden md:flex items-center justify-center cursor-pointer outline-none sticky right-0 top-2 w-8 h-8 rounded-full border-2 border-blue-500"
+          dangerouslySetInnerHTML={{ __html: svg }}
+          className="hidden md:flex items-center justify-center cursor-pointer outline-none sticky right-0 top-2 w-10 h-10 rounded-full  "
+        ></Link>
+      ) : (
+        <Link
+          to="/login"
+          className="hidden md:flex text-blue-700 items-center justify-center cursor-pointer outline-none sticky right-0 top-2 w-8 h-8 rounded-full bg-blue-200  "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -31,12 +39,6 @@ const Header = () => {
               d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
             />
           </svg>
-        </Link>
-      ) : (
-        <Link to="/login" className="hidden md:block">
-          <button className=" flex items-center justify-center w-28 h-9 bg-blue-500 font-medium text-white rounded-md hover:bg-blue-700 cursor-pointer outline-none shadow-md ">
-            login
-          </button>
         </Link>
       )}
 
@@ -92,23 +94,10 @@ const Header = () => {
         {user ? (
           <li>
             <Link to={`/profile/${user}`}>
-              <button className=" w-32 h-9 flex items-center justify-center bg-blue-500 font-medium text-white rounded-md hover:bg-blue-700 cursor-pointer outline-none shadow-md">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-                Profile
-              </button>
+              <div
+                className="w-9 h-9"
+                dangerouslySetInnerHTML={{ __html: svg }}
+              ></div>
             </Link>
           </li>
         ) : (

@@ -9,6 +9,7 @@ const Editor = () => {
   const history = useHistory();
   const [value, setValue] = useState("");
   const [title, setTitle] = useState("");
+  const [preview, setPreview] = useState(false);
   const onSave = async () => {
     await createStory({
       variables: { title: title, content: value },
@@ -19,28 +20,48 @@ const Editor = () => {
   };
 
   return (
-    <div className="w-full  px-40">
-      <div className="w-full ml-auto sticky top-14 h-14 flex items-center justify-between">
+    <div className="w-full  px-40 md:p-2">
+      <div className="w-full ml-auto sticky top-14 h-14 flex md:flex-col md:h-auto  md:mb-4 items-center justify-between">
         <input
-          className="w-4/6 h-12 border-2 px-4 text-xl font-bold outline-none  rounded-md"
+          className="w-4/6 md:w-full h-12 border-2 md:border px-4 md:px-2 text-xl md:text-lg font-bold md:font-semibold outline-none md:mb-2 rounded-md"
           placeholder="Title of the story"
           onChange={(e) => setTitle(e.target.value)}
+          autoFocus
         />
-        <button
-          onClick={() => history.push("/")}
-          className="w-28 h-8 bg-yellow-100 rounded-md hover:bg-yellow-300 text-yellow-800 text-md font-medium shadow-sm"
-        >
-          Cancel
-        </button>
-        <button
-          disabled={!title && !value}
-          onClick={onSave}
-          className="w-28 h-8 bg-blue-200 rounded-md hover:bg-blue-300  text-blue-800 text-md capitalize font-medium shadow-sm"
-        >
-          publish
-        </button>
+        <div className="md:container md:flex md:justify-evenly md:items-center">
+          <button
+            onClick={() => setPreview(!preview)}
+            className=" hidden w-28 md:w-20 h-8 bg-green-100 rounded-md hover:bg-green-300 text-green-800 text-md md:text-sm font-medium shadow-sm md:block"
+          >
+            {preview ? "Edit" : "Preview"}
+          </button>
+          <button
+            onClick={() => history.push("/")}
+            className="w-28 md:w-20 h-8 bg-yellow-100 rounded-md hover:bg-yellow-300 text-yellow-800 text-md md:text-sm  font-medium shadow-sm mx-2 md:mx-0"
+          >
+            Cancel
+          </button>
+          <button
+            disabled={!title && !value}
+            onClick={onSave}
+            className="w-28 md:w-20 h-8 bg-blue-200 rounded-md hover:bg-blue-300  text-blue-800 text-md md:text-sm  capitalize font-medium shadow-sm"
+          >
+            publish
+          </button>
+        </div>
       </div>
-      <MDEditor height={500} value={value} onChange={setValue} />
+      <div className="md:block hidden">
+        <MDEditor
+          preview={preview ? "preview" : "edit"}
+          hideToolbar="true"
+          height={600}
+          value={value}
+          onChange={setValue}
+        />
+      </div>
+      <div className="md:hidden block">
+        <MDEditor height={500} value={value} onChange={setValue} />
+      </div>
     </div>
   );
 };

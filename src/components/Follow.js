@@ -22,9 +22,9 @@ const Follow = ({ id }) => {
   return (
     <button
       onClick={onFollow}
-      className="w-36 h-9 bg-blue-500 rounded-md font-bold capitalize text-base hover:bg-blue-600 text-white"
+      className="w-36 md:w-28 md:h-8 h-9 bg-blue-200 rounded-md font-semibold capitalize text-base hover:bg-blue-300 text-blue-700"
     >
-      {data.followers.indexOf(user) >= 0 ? "followed" : "follow"}
+      {data.followers.indexOf(user) >= 0 ? "unfollow" : "follow"}
     </button>
   );
 };

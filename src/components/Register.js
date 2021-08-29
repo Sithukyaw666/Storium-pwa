@@ -21,7 +21,7 @@ const Register = () => {
   }
 
   return (
-    <div className="md:w-full p-8 w-4/12 shadow-lg rounded-lg h-96 ml-auto mr-auto mt-32 flex flex-col justify-center items-center bg-gray-100">
+    <div className="md:w-full p-8 w-4/12 shadow-lg rounded-lg h-96 ml-auto md:mt-20 mr-auto mt-32 flex flex-col justify-center items-center bg-gray-100">
       <p className="text-blue-500 font-bold text-3xl mb-4">Register</p>
       <form
         className="container h-60 flex justify-around items-center flex-col "
@@ -54,7 +54,7 @@ const Register = () => {
         )}
         <button
           type="submit"
-          className="w-40 h-9 bg-blue-500 rounded-lg text-white font-semibold uppercase hover:bg-blue-600"
+          className="w-40 md:w-28 h-9 bg-blue-200 rounded-lg text-blue-700 font-semibold uppercase hover:bg-blue-300"
         >
           submit
         </button>

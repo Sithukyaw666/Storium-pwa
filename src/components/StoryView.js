@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 import { GET_STORY_BY_ID } from "../gql/query";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import { createProfile } from "../utils/profile";
 
 const StoryView = () => {
   const { id } = useParams();
@@ -12,34 +13,48 @@ const StoryView = () => {
   });
 
   return (
-    <div className="w-1/2 ml-auto mr-auto p-8 bg-white md:w-full md:p-4">
+    <div className="w-2/3 ml-auto mr-auto p-8 bg-white md:w-full md:p-4">
       {data ? (
         <>
           <div className="mb-8">
-            <p className="text-4xl font-extrabold mb-8 capitalize md:text-3xl">
+            <p className="text-4xl font-extrabold mb-8 capitalize md:text-3xl md:font-bold ">
               {data.getStoryById.title}
             </p>
             <div className="flex items-center justify-between md:flex-col md:items-start">
-              <p className=" font-bold text-base text-gray-600">
+              {/* <p className=" font-bold text-base text-gray-600">
                 Author :{" "}
                 <Link to={`/profile/${data.getStoryById.authorID}`}>
                   <span className="hover:text-blue-500 capitalize">
                     {data.getStoryById.author.username}
                   </span>
                 </Link>
-              </p>
+              </p> */}
+              <Link
+                to={`/profile/${data.getStoryById.authorID}`}
+                className="flex items-center"
+              >
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: createProfile(data.getStoryById.authorID),
+                  }}
+                  className="w-12 h-12 md:w-8 md:h-8"
+                ></div>
+                <p className="px-4 md:px-2 hover:text-blue-500 capitalize font-bold text-gray-700">
+                  {" "}
+                  {data.getStoryById.author.username}
+                </p>
+              </Link>
 
-              <p className="text-gray-600 text-sm font-semibold">
+              <p className="text-gray-500 text-sm font-semibold">
                 Published on :{" "}
-                <span className="text-blue-500">
-                  {new Date(Number(data.getStoryById.createdAt)).toDateString()}
-                </span>
+                {new Date(Number(data.getStoryById.createdAt)).toDateString()}
               </p>
             </div>
           </div>
           <hr />
           <MDEditor.Markdown
-            className="font-normal text-md text-gray-800"
+            className="  text-gray-800 md:text-md"
+            style={{ fontSize: "1.1rem" }}
             source={data.getStoryById.content}
           />
         </>

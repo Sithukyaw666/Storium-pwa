@@ -8,21 +8,20 @@ import { LOGOUT } from "../gql/mutation";
 const Logout = () => {
   const [login, setLogin] = useRecoilState(isLogin);
   const history = useHistory();
-  const [logout] = useMutation(LOGOUT);
+  const [logout, { data }] = useMutation(LOGOUT);
 
   const onLogout = async () => {
     await logout();
-    try {
-      setLogin(!login);
-      history.push("/");
-    } catch {}
   };
-  // const setLogout = () => {};
-  // data && setLogout();
+  if (data?.logout) {
+    !data.logout.user && setLogin(!login);
+    !data.logout.user && history.push("/");
+  }
+
   return (
     <button
       onClick={onLogout}
-      className="w-36 h-9 bg-red-500 rounded-md font-bold capitalize text-base hover:bg-red-600 text-white"
+      className="w-36 md:w-32 md:h-8 h-9 bg-red-200 rounded-md font-semibold capitalize text-base hover:bg-red-300 text-red-700"
     >
       logout
     </button>
