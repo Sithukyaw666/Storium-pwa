@@ -1,130 +1,182 @@
-import React from "react";
+import { Fragment } from "react";
+
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 
 import { useAuth } from "../hooks/auth";
 import logo from "../assets/logo/logo.svg";
 import { createProfile } from "../utils/profile";
 
+import Logout from "./Logout";
+
 const Header = () => {
   const user = useAuth();
-  const svg = createProfile(user);
+  const svg = createProfile(user?.id);
+  const userNavigation = [
+    { name: "Your Profile", href: `/profile/${user?.id}` },
+    { name: "Settings", href: "#" },
+  ];
 
   return (
-    <nav
-      className={`sticky top-0 w-full h-16 bg-white flex justify-around items-center   px-4 z-10`}
-    >
-      <img className="w-20 " src={logo} alt="Storium" />
-      {user ? (
-        <Link
-          to={`/profile/${user}`}
-          dangerouslySetInnerHTML={{ __html: svg }}
-          className="hidden md:flex items-center justify-center cursor-pointer outline-none sticky right-0 top-2 w-10 h-10 rounded-full  "
-        ></Link>
-      ) : (
-        <Link
-          to="/login"
-          className="hidden md:flex text-blue-700 items-center justify-center cursor-pointer outline-none sticky right-0 top-2 w-8 h-8 rounded-full bg-blue-200  "
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-            />
-          </svg>
-        </Link>
-      )}
+    <Disclosure as="nav" className="bg-blue-700">
+      {({ open }) => (
+        <>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <img className="h-12 w-12" src={logo} alt="Storium" />
+                </div>
+                <div className="md:hidden block">
+                  <div className="ml-10 flex items-baseline space-x-4">
+                    <Link
+                      to="/"
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    >
+                      Stories
+                    </Link>
+                    {user?.id && (
+                      <Link
+                        to="/Editor"
+                        className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                      >
+                        Create Story
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="md:hidden block">
+                <div className="md:ml-4 flex items-center ml-6">
+                  {/* Profile dropdown */}
+                  {user?.id ? (
+                    <Menu as="div" className="ml-3 relative">
+                      <div>
+                        <Menu.Button className="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                          <span className="sr-only">Open user menu</span>
+                          {user?.id && (
+                            <div
+                              className="w-10 h-10"
+                              dangerouslySetInnerHTML={{ __html: svg }}
+                            />
+                          )}
+                        </Menu.Button>
+                      </div>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="origin-top-right absolute z-10 right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          {userNavigation.map((item) => (
+                            <Menu.Item key={item.name}>
+                              {({ active }) => (
+                                <Link
+                                  to={item.href}
+                                  className="block px-4 py-2 text-sm text-gray-700"
+                                >
+                                  {item.name}
+                                </Link>
+                              )}
+                            </Menu.Item>
+                          ))}
+                          <div className="mx-2">
+                            <Logout link />
+                          </div>
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
+                  ) : (
+                    <Link
+                      to="/login"
+                      className="text-center text-blue-600 bg-white hover:bg-gray-200 hover:text-blue-800 block px-10  py-2 rounded-md text-base font-medium"
+                    >
+                      Login
+                    </Link>
+                  )}
+                </div>
+              </div>
+              <div className="-mr-2 md:flex hidden">
+                {/* Mobile menu button */}
+                <Disclosure.Button className="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                  <span className="sr-only">Open main menu</span>
+                  {open ? (
+                    <XIcon className="block h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <MenuIcon className="block h-6 w-6" aria-hidden="true" />
+                  )}
+                </Disclosure.Button>
+              </div>
+            </div>
+          </div>
 
-      <ul
-        className={`flex justify-between items-center w-1/2 md:-translate-x-full md:hidden `}
-      >
-        <li>
-          <Link
-            to="/"
-            className="font-medium w-20 flex items-center justify-center text-gray-800 cursor-pointer hover:text-blue-500"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-              />
-            </svg>{" "}
-            Stories
-          </Link>
-        </li>
-        {user && (
-          <li>
-            <Link
-              to="/editor"
-              className="font-medium flex w-32 justify-center items-center text-gray-800 cursor-pointer hover:text-blue-500"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+          <Disclosure.Panel className="hidden md:block">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              <Link
+                to="/"
+                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                />
-              </svg>{" "}
-              Create Story
-            </Link>
-          </li>
-        )}
-        {user ? (
-          <li>
-            <Link to={`/profile/${user}`}>
-              <div
-                className="w-9 h-9"
-                dangerouslySetInnerHTML={{ __html: svg }}
-              ></div>
-            </Link>
-          </li>
-        ) : (
-          <li>
-            <Link to="/login">
-              <button className=" flex items-center justify-center w-32 h-9 bg-blue-500 font-medium text-white rounded-md hover:bg-blue-700 cursor-pointer outline-none shadow-md ">
-                Get Started
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+                Stories
+              </Link>
+              {user?.id && (
+                <Link
+                  to="/editor"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
-              </button>
-            </Link>
-          </li>
-        )}
-      </ul>
-    </nav>
+                  Create Story
+                </Link>
+              )}
+            </div>
+            {user?.id ? (
+              <div className="pt-4 pb-3 border-t border-gray-700">
+                <div className="flex items-center px-5">
+                  <div className="flex-shrink-0">
+                    <div
+                      className="w-10 h-10"
+                      dangerouslySetInnerHTML={{ __html: svg }}
+                    />
+                  </div>
+                  <div className="ml-3">
+                    <div className="text-base font-medium leading-none text-white">
+                      {user.username}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-3 px-2 space-y-1">
+                  {userNavigation.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                  <div className="mx-2">
+                    <Logout link />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <Link
+                  to="/login"
+                  className="text-center text-blue-600 bg-white hover:bg-gray-200 hover:text-blur-800 block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Login
+                </Link>
+              </div>
+            )}
+          </Disclosure.Panel>
+        </>
+      )}
+    </Disclosure>
   );
 };
 export default Header;

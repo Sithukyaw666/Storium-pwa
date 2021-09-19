@@ -9,6 +9,6 @@ export const useAuth = () => {
   const { data, refetch } = useQuery(GET_ME);
   useEffect(() => {
     refetch();
-  }, [login]);
-  return data?.me?.user;
+  }, [login, refetch]);
+  return data?.me;
 };

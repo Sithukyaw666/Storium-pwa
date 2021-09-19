@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-export const isLogin = atom({
-  key: "isLogin",
+export const isComment = atom({
+  key: "isComment",
   default: false,
 });

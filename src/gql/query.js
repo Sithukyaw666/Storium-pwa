@@ -7,6 +7,11 @@ export const GET_STORY = gql`
       title
       authorID
       createdAt
+      reactions
+      comments {
+        author
+        comment
+      }
       author {
         username
       }
@@ -16,10 +21,16 @@ export const GET_STORY = gql`
 export const GET_STORY_BY_ID = gql`
   query getStoryById($id: ID!) {
     getStoryById(id: $id) {
+      id
       title
       content
       authorID
       createdAt
+      reactions
+      comments {
+        author
+        comment
+      }
       author {
         username
       }
@@ -29,7 +40,8 @@ export const GET_STORY_BY_ID = gql`
 export const GET_ME = gql`
   query {
     me {
-      user
+      id
+      username
     }
   }
 `;
@@ -37,6 +49,7 @@ export const GET_ME = gql`
 export const GET_USER_BY_ID = gql`
   query getUserById($id: ID!) {
     getUserById(id: $id) {
+      id
       username
       email
       followers
@@ -46,6 +59,11 @@ export const GET_USER_BY_ID = gql`
         title
         content
         createdAt
+        reactions
+        comments {
+          author
+          comment
+        }
       }
     }
   }

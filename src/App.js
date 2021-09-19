@@ -9,6 +9,9 @@ import Login from "./components/Login";
 import StoryView from "./components/StoryView";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
+import UpdateEditor from "./components/UpdateEditor";
+import Followers from "./components/Followers";
+import Followings from "./components/Followings";
 
 function App() {
   const client = new ApolloClient({
@@ -17,7 +20,7 @@ function App() {
   });
 
   return (
-    <div className="App w-full h-full   ">
+    <div className="App w-full h-full ">
       <ApolloProvider client={client}>
         <Router>
           <Header />
@@ -25,10 +28,13 @@ function App() {
           <Switch>
             <Route path="/" exact component={Feeds} />
             <Route path="/editor" component={Editor} />
+            <Route path="/update/:id" component={UpdateEditor} />
             <Route path="/login" component={Login} />
             <Route path="/story/:id" component={StoryView} />
             <Route path="/register" component={Register} />
             <Route path="/profile/:id" component={Profile} />
+            <Route path="/:id/followers" component={Followers} />
+            <Route path="/:id/followings" component={Followings} />
           </Switch>
         </Router>
       </ApolloProvider>
